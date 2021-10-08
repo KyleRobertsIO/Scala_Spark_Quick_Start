@@ -8,6 +8,21 @@ The purpose of this page to help new people easily get started using Apache Spar
 This examples will return a result in the Databricks notebook for the column 
 headers and thier types. The string `/FileStore/tables/daily_change_in_cases_by_phu.csv` is a path in the DBFS (Databricks File System) to a specific data file to be processed by Spark.
 
-    val wholeDF = spark.read.format("csv")
+The `dataFrame` variable will hold the whole dataset in memory for processing.
+
+    val dataFrame = spark.read.format("csv")
         .option("header", "true")
         .load("/FileStore/tables/daily_change_in_cases_by_phu.csv")
+
+## Displaying Your Data Frame
+
+Using the code below we can print out our data frame state into the notebook UI.
+
+    display(dataFrame)
+
+## Selecting Certain Fields From Data Frame
+
+Maybe you have a very wide table for your dataset and you don't really need to see everything inside of it. In Spark we write Scala based code that will 
+perform SQL style operations on the data frame.
+
+    val depExpenseDF = dataFrame.select("id", "timestamp", "department_name", "department_expenses")
