@@ -14,20 +14,20 @@ The `dataFrame` variable will hold the whole dataset in memory for processing.
         .option("header", "true")
         .load("/FileStore/tables/daily_change_in_cases_by_phu.csv")
 
-## Displaying Your Data Frame
+### Displaying Your Data Frame
 
 Using the code below we can print out our data frame state into the notebook UI.
 
     display(dataFrame)
 
-## Selecting Certain Fields From Data Frame
+### Selecting Certain Fields From Data Frame
 
 Maybe you have a very wide table for your dataset and you don't really need to see everything inside of it. In Spark we write Scala based code that will 
 perform SQL style operations on the data frame.
 
     val depExpenseDF = dataFrame.select("id", "timestamp", "department_name", "department_expenses")
 
-## Removing Null or NaN Values From Columns
+### Removing Null or NaN Values From Columns
 
 You are likely to have datasets where you have null or NaN values in the data.
 This type of process falls under the topic of data cleaning and it's important to having a mature health dataset for analytics.
@@ -35,3 +35,12 @@ This type of process falls under the topic of data cleaning and it's important t
     // "0" is the value to replace the null/NaN value in a column
     // "salary" is the column name to be affected by the cleaning
     val cleanedDF = dataFrame.na.fill("0", Seq("salary"))
+
+### Casting A Column Type
+In this example we can take a column that maybe has a wrong datatype assignment and convert it to the proper one that we need for analysis. You can see all the different Spark types [here](https://spark.apache.org/docs/1.6.1/api/java/org/apache/spark/sql/types/package-summary.html).
+
+
+    import org.apache.spark.sql.functions.col
+    import org.apache.spark.sql.types.FloatType
+
+    dataFrame.withColumn("salary", col("salary").cast(FloatType))
