@@ -6,7 +6,7 @@ The purpose of this page to help new people easily get started using Apache Spar
 
 ### Open A CSV File To Data Frame
 This examples will return a result in the Databricks notebook for the column 
-headers and thier types.
+headers and thier types. The string `/FileStore/tables/daily_change_in_cases_by_phu.csv` is a path in the DBFS (Databricks File System) to a specific data file to be processed by Spark.
 
     val wholeDF = spark.read.format("csv")
         .option("header", "true")
