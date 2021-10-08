@@ -4,7 +4,7 @@ The purpose of this page to help new people easily get started using Apache Spar
 
 ---
 
-### Open A CSV File To Data Frame
+### **Open A CSV File To Data Frame**
 This examples will return a result in the Databricks notebook for the column 
 headers and thier types. The string `/FileStore/tables/daily_change_in_cases_by_phu.csv` is a path in the DBFS (Databricks File System) to a specific data file to be processed by Spark.
 
@@ -20,14 +20,15 @@ Using the code below we can print out our data frame state into the notebook UI.
 
     display(dataFrame)
 
-### Selecting Certain Fields From Data Frame
+### **Selecting Certain Fields From Data Frame**
 
 Maybe you have a very wide table for your dataset and you don't really need to see everything inside of it. In Spark we write Scala based code that will 
 perform SQL style operations on the data frame.
 
     val depExpenseDF = dataFrame.select("id", "timestamp", "department_name", "department_expenses")
 
-### Removing Null or NaN Values From Columns
+
+### **Removing Null or NaN Values From Columns**
 
 You are likely to have datasets where you have null or NaN values in the data.
 This type of process falls under the topic of data cleaning and it's important to having a mature health dataset for analytics.
@@ -36,11 +37,58 @@ This type of process falls under the topic of data cleaning and it's important t
     // "salary" is the column name to be affected by the cleaning
     val cleanedDF = dataFrame.na.fill("0", Seq("salary"))
 
-### Casting A Column Type
-In this example we can take a column that maybe has a wrong datatype assignment and convert it to the proper one that we need for analysis. You can see all the different Spark types [here](https://spark.apache.org/docs/1.6.1/api/java/org/apache/spark/sql/types/package-summary.html).
+### **Casting A Column Type**
 
+In this example we can take a column that maybe has a wrong datatype assignment and convert it to the proper one that we need for analysis. You can see all the different Spark types [here](https://spark.apache.org/docs/1.6.1/api/java/org/apache/spark/sql/types/package-summary.html).
 
     import org.apache.spark.sql.functions.col
     import org.apache.spark.sql.types.FloatType
 
     dataFrame.withColumn("salary", col("salary").cast(FloatType))
+
+### **Using Aggregate Functions In Queries**
+To use `Aggregate Functions` inside of Scala Spark you first need to import them into you notebook. Belows import will bring in all Spark SQL functions.
+
+    import org.apache.spark.sql.functions._
+
+---
+
+\
+***Dataset Example***
+
+| outbreak_group  | number_ongoing_outbreaks |
+|-----------------|--------------------------|
+| Congregate Care | 73                       |
+| Workpalace      | 43                       |
+| Workpalace      | 65                       |
+| Other/Unknown   | 12                       |
+
+\
+Below is an example of averaging a columns values.
+
+    // Create data frame of the average result of a row.
+    val avgOutbreaksDF = df.select(avg("number_ongoing_outbreaks").alias("avg_outbreaks"))
+
+    // Collect only the value from row[0], column[0]
+    val avgOutbreaks = avgOutbreaksDF.collect()(0)(0)
+
+    // Print the result to the notebook console
+    println("\nAverage Outbreaks [" + avgOutbreaks + "]\n")
+
+\
+Below is an example of a group by average of types.
+
+    val groupAvgDF = dataframe.groupBy("outbreak_group")
+        .agg(
+            avg("number_ongoing_outbreaks").alias("avg_outbreak")
+        )
+    display(groupAvgDF)
+
+\
+***Output Example***
+
+| outbreak_group    | avg_outbreak       |
+|-------------------|--------------------|
+| Other/Unknown     | 6.7129770992366415 |
+| Workplace         | 30.566350710900473 |
+| Congregate Living | 13.913430935709739 |
