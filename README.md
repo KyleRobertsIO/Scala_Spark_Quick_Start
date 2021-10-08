@@ -1,6 +1,11 @@
 # Scala Spark Quick Start On Databricks
 
-The purpose of this page to help new people easily get started using Apache Spark inside the of the Databricks environment. The aim is to have you the read not have to spend hours trying to figure out how to get things up and running.
+The purpose of this page to help new people easily get started using Apache Spark inside the of the Databricks environment. The aim is to have you the reader not have to spend hours trying to figure out how to get things up and running.
+
+This document was written during October 2021 for:
+* Databrick Runtime V8.4
+* Scala V2.12
+* Spark V3.1.2
 
 ---
 
