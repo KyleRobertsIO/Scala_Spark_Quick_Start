@@ -26,3 +26,12 @@ Maybe you have a very wide table for your dataset and you don't really need to s
 perform SQL style operations on the data frame.
 
     val depExpenseDF = dataFrame.select("id", "timestamp", "department_name", "department_expenses")
+
+## Removing Null or NaN Values From Columns
+
+You are likely to have datasets where you have null or NaN values in the data.
+This type of process falls under the topic of data cleaning and it's important to having a mature health dataset for analytics.
+
+    // "0" is the value to replace the null/NaN value in a column
+    // "salary" is the column name to be affected by the cleaning
+    val cleanedDF = dataFrame.na.fill("0", Seq("salary"))
