@@ -53,6 +53,7 @@ In this example we can take a column that maybe has a wrong datatype assignment 
 
 ### **Using Aggregate Functions In Queries**
 To use `Aggregate Functions` inside of Scala Spark you first need to import them into you notebook. Belows import will bring in all Spark SQL functions.
+You can find a list of built-in aggregate functions for Spark [here](https://spark.apache.org/docs/latest/sql-ref-functions-builtin.html).
 
     import org.apache.spark.sql.functions._
 
@@ -97,3 +98,19 @@ Below is an example of a group by average of types.
 | Other/Unknown     | 6.7129770992366415 |
 | Workplace         | 30.566350710900473 |
 | Congregate Living | 13.913430935709739 |
+
+---
+
+## Using Delta Lake
+
+### **Making a unmanaged Delta Lake table**
+
+Making a Delta Lake table is simple and not much different from a csv, json or parquet table.
+
+    dataFrame.write
+        .format("delta")
+        .save("/mnt/delta/my_dataset_name")
+
+    spark.sql(
+        "CREATE TABLE <table_name> USING DELTA LOCATION '/mnt/delta/my_dataset_name'"
+    )
