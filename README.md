@@ -103,7 +103,7 @@ Below is an example of a group by average of types.
 
 ## Using Delta Lake
 
-### **Making a unmanaged Delta Lake table**
+### **Making A Delta Lake Table**
 
 Making a Delta Lake table is simple and not much different from a csv, json or parquet table.
 
@@ -114,3 +114,41 @@ Making a Delta Lake table is simple and not much different from a csv, json or p
     spark.sql(
         "CREATE TABLE <table_name> USING DELTA LOCATION '/mnt/delta/my_dataset_name'"
     )
+
+While having a Delta table is nice we would like to speed up query times when using Spark. One of the common ways to speed up queries is by partitioning the dataset into seperate files based on a column and its values.
+
+Using the same type of code above we just add a .partitionBy() method.
+
+    dataFrame.write
+        .format("delta")
+        .partitionBy("column_name)")
+        .save("/mnt/delta/my_dataset_name")
+
+Creating the Delta table will now have seperate files that are divided by your distinct column values.
+
+### **Reading Your File System**
+
+If you want to see what is the state of your files in a directory you can just use your notebook with this command.
+
+    display(
+        dbutils.fs.ls("/mnt/delta/my_dataset_name")
+    )
+
+### **Deleting A Delta Table**
+
+If you need to remove your Delta table from the behind the seens Hive instance or the databricks filesystem, just using the commands below.
+
+    // Delete the table.
+    spark.sql("DROP TABLE <table_name>")
+    
+    // Delete the saved data.
+    dbutils.fs.rm("/mnt/delta/my_dataset_name)", true)
+
+### **View Partitioned Delta Table**
+
+If you have your dataset partitioned, you can can easily aggregate it together
+to view the whole dataset or query against it.
+
+    val dataFrame = spark.read
+        .format("delta")
+        .load("/mnt/delta/my_dataset_name")
