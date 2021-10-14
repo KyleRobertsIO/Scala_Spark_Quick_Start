@@ -156,6 +156,8 @@ to view the whole dataset or query against it.
 ---
 
 ## **Upsert Column Data In Delta Table**
+Inorder to update the state of the Delta table data and append a new version for time travelling
+you need do some mapping.
 
     import io.delta.tables._
 
@@ -171,20 +173,20 @@ to view the whole dataset or query against it.
     val updatedDF = dataFrame.select("Id", "Employee_Type")
         .na.fill("Unknown", Seq("Employee_Type"))
 
-    deltaTable.as("dataset")
+    deltaTable.as("dataset") // Name the table alias
         .merge(
-            updatedDF.as("updates"),
-            "dataset.Id = updates.Id"
+            updatedDF.as("updates"), // Name the data frame alias
+            "dataset.Id = updates.Id" // Define the unique key to match rows
         )
         .whenMatched
-        .updateExpr(
+        .updateExpr( // Update row fields
+            // Map table column to data frame column
             Map("Employee_Type" -> "updates.Employee_Type")
         )
-        .whenNotMatched
-        .insertExpr(
-            Map(
-                "Id" -> "updates.Id",
-                "Employee_Type" -> "updates.Employee_Type"
-            )
-        )
         .execute()
+
+Running this command you can will update the version of the Delta table. You can run this following command to see the MERGE action in the table history.
+
+    display(
+        deltaTable.history()
+    )
