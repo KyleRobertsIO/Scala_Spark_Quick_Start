@@ -9,6 +9,15 @@ This document was written during October 2021 for:
 
 ---
 
+### **Getting Free Databricks Account**
+You want to head over to [databricks.com/try-databricks.com](https://https://databricks.com/try-databricks) and create an account (No credit card required upfront). Once created you want to select the `Community` edition of Databricks which is free for learning. Once you've select that you at anytime access the community edition from the link below.
+
+**Login Portal For Community Databricks Accounts:**
+
+[community.cloud.databricks.com](https://https://community.cloud.databricks.com/)
+
+---
+
 ### **Open A CSV File To Data Frame**
 This examples will return a result in the Databricks notebook for the column 
 headers and thier types. The string `/FileStore/tables/daily_change_in_cases_by_phu.csv` is a path in the DBFS (Databricks File System) to a specific data file to be processed by Spark.
@@ -155,7 +164,7 @@ to view the whole dataset or query against it.
 
 ---
 
-## **Upsert Column Data In Delta Table**
+### **Upsert Column Data In Delta Table**
 Inorder to update the state of the Delta table data and append a new version for time travelling
 you need do some mapping.
 
