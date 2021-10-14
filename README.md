@@ -152,3 +152,39 @@ to view the whole dataset or query against it.
     val dataFrame = spark.read
         .format("delta")
         .load("/mnt/delta/my_dataset_name")
+
+---
+
+## **Upsert Column Data In Delta Table**
+
+    import io.delta.tables._
+
+    val deltaTable = DeltaTable.forPath(spark, "/mnt/delta/my_dataset_name")
+
+    // Load whole dataset
+    val dataFrame = spark.read
+        .format("delta")
+        .load("/mnt/delta/my_dataset_name")
+
+    // Select required fields and update column data
+    // Here we will remove nulls from column by replacing them
+    val updatedDF = dataFrame.select("Id", "Employee_Type")
+        .na.fill("Unknown", Seq("Employee_Type"))
+
+    deltaTable.as("dataset")
+        .merge(
+            updatedDF.as("updates"),
+            "dataset.Id = updates.Id"
+        )
+        .whenMatched
+        .updateExpr(
+            Map("Employee_Type" -> "updates.Employee_Type")
+        )
+        .whenNotMatched
+        .insertExpr(
+            Map(
+                "Id" -> "updates.Id",
+                "Employee_Type" -> "updates.Employee_Type"
+            )
+        )
+        .execute()
