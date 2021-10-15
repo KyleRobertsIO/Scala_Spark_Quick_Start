@@ -28,7 +28,7 @@ The `dataFrame` variable will hold the whole dataset in memory for processing.
         .option("header", "true")
         .load("/FileStore/tables/daily_change_in_cases_by_phu.csv")
 
-### Displaying Your Data Frame
+### **Displaying Your Data Frame**
 
 Using the code below we can print out our data frame state into the notebook UI.
 
@@ -130,7 +130,7 @@ Using the same type of code above we just add a .partitionBy() method.
 
     dataFrame.write
         .format("delta")
-        .partitionBy("column_name)")
+        .partitionBy("column_name")
         .save("/mnt/delta/my_dataset_name")
 
 Creating the Delta table will now have seperate files that are divided by your distinct column values.
