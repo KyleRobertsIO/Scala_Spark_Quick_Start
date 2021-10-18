@@ -165,7 +165,7 @@ to view the whole dataset or query against it.
 ---
 
 ### **Upsert Column Data In Delta Table**
-Inorder to update the state of the Delta table data and append a new version for time travelling
+In order to update the state of the Delta table data and append a new version for time traveling
 you need do some mapping.
 
     import io.delta.tables._
@@ -199,3 +199,20 @@ Running this command you can will update the version of the Delta table. You can
     display(
         deltaTable.history()
     )
+
+### **Evolving Delta Schema**
+Delta tables have the great functionality to merge schema changes automatically. You can can read more about this functionality [here](https://docs.delta.io/0.6.0/delta-update.html#automatic-schema-evolution).
+
+    // Enable automatic schema evolution
+    spark.sql("SET spark.databricks.delta.schema.autoMerge.enabled = true")
+
+    val deltaTable = DeltaTable.forPath(spark, "/mnt/delta/my_dataset_name")
+
+    deltaTable.alias("target")
+        .merge(
+            modifiedDataFrame.alias("src"),
+            "target.id_column = src.id_column"
+        )
+        .whenMatched().updateAll()
+        .whenNotMatched().insertAll()
+        .execute()
