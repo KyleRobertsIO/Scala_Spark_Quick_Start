@@ -121,6 +121,8 @@ Delta tables have the great functionality to merge schema changes automatically.
 
 In this demonstration we build some quick data tables for a Bronze and Silver tier of storage. Then we will stream using Spark streaming data from Bronze into the Silver tier adding new columns of data to bring more context to data. 
 
+<iframe src="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/2050445406720207/2894996849343305/4305005950935427/latest.html" title="Initialize Bronze Table"></iframe>
+
 1. [Initialize Bronze Table](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/2050445406720207/2894996849343305/4305005950935427/latest.html)
 
 2. [Initialize Silver Table](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/2050445406720207/3495167117540935/4305005950935427/latest.html)
