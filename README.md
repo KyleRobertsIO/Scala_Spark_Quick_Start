@@ -7,8 +7,6 @@ This document was written during October 2021 for:
 * **Scala** *V2.12*
 * **Apache Spark** *V3.1.2*
 
-<br>
-
 ---
 
 <br>
@@ -19,8 +17,6 @@ You want to head over to [databricks.com/try-databricks.com](https://databricks.
 **Login Portal For Community Databricks Accounts:**
 
 [community.cloud.databricks.com](https://community.cloud.databricks.com/)
-
-<br>
 
 ---
 

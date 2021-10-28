@@ -1,7 +1,5 @@
 # **Spark Scala Delta Lake**
 
-<br>
-
 ## **Making A Delta Lake Table**
 
 Making a Delta Lake table is simple and not much different from a csv, json or parquet table.
